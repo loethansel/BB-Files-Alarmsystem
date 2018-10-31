@@ -1,0 +1,51 @@
+{
+   "checksum": "33c1b84d66cba2293cf0520073a6b3a3",
+   "roots": {
+      "bookmark_bar": {
+         "children": [ {
+            "date_added": "0",
+            "id": "5",
+            "meta_info": {
+               "last_visited_desktop": "13185108947384210"
+            },
+            "name": "Debian.org",
+            "type": "url",
+            "url": "http://www.debian.org/"
+         }, {
+            "date_added": "0",
+            "id": "6",
+            "name": "BeagleBoard.org - community supported open hardware computers for making",
+            "type": "url",
+            "url": "http://beagleboard.org/"
+         }, {
+            "date_added": "0",
+            "id": "7",
+            "name": "BeagleBoard.org · GitHub",
+            "type": "url",
+            "url": "https://github.com/beagleboard"
+         } ],
+         "date_added": "13185100792406743",
+         "date_modified": "0",
+         "id": "1",
+         "name": "Bookmarks bar",
+         "type": "folder"
+      },
+      "other": {
+         "children": [  ],
+         "date_added": "13185100792406818",
+         "date_modified": "0",
+         "id": "2",
+         "name": "Other bookmarks",
+         "type": "folder"
+      },
+      "synced": {
+         "children": [  ],
+         "date_added": "13185100792406843",
+         "date_modified": "0",
+         "id": "3",
+         "name": "Mobile bookmarks",
+         "type": "folder"
+      }
+   },
+   "version": 1
+}
