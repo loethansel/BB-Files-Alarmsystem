@@ -1,0 +1,126 @@
+Debian: 9.5 2018-10-07
+Distribution: Debian 9.5 2018-10-07 4GB SD IoT auf die SD-Karte
+
+----------------------------------------------------------
+RESIZE Image:
+https://elinux.org/Beagleboard:Expanding_File_System_Partition_On_A_microSD
+sudo su 
+fdisk /dev/mmcblk0  d  2  n  p  2  w (z.B. 8192 merken)
+reboot
+sudo su (after reboot is complete)
+resize2fs /dev/mmcblk0p1
+
+-----------------------------------------------------------
+UPDATING/UPGRADING System:
+
+apt-get udate
+apt-get upgrade
+
+-----------------------------------------------------------
+GET NEEDED Helpers:
+
+git clone https://github.com/derekmolloy/exploringBB.git
+http://www.embedded-things.com/bbb/beaglebone-black-pin-mux-spreadsheet/
+https://github.com/derekmolloy/boneDeviceTree/blob/master/docs/BeagleboneBlackP8HeaderTable.pdf
+https://github.com/derekmolloy/boneDeviceTree/blob/master/docs/BeagleboneBlackP9HeaderTable.pdf
+      
+-----------------------------------------------------------
+Using Overlays for PINMUX:
+
+NOTE: 
+If you have an boot partition and an uEnv.txt on emmc and you boot from SD-Card and the changes will not appear => disable the emmc. 
+
+CREATE OWN-GPIO uboot-overlay (ALR-GPIO-MUX-00A0.dtbo):
+https:///github.com/beagleboard/bb.org-overlays.git => install.sh
+cd /home/debian/exploringBB/chp06/overlay/ => create Pinmux for GPIO-Pins, than build and copy to /lib/firmware
+sudo reboot => check COM0 with serial-usb cable
+cd /sys/devices/platform/ocp/ocp:gpio_helper/  => check if gpio_helper is present
+
+###Overide capes with eeprom
+uboot_overlay_addr0=/lib/firmware/ALR-GPIO-MUX-00A0.dtbo
+uboot_overlay_addr1=/lib/firmware/BB-SPIDEV1-00A0.dtbo
+uboot_overlay_addr2=/lib/firmware/BB-UART1-00A0.dtbo
+uboot_overlay_addr3=/lib/firmware/BB-UART4-00A0.dtbo
+###
+###Additional custom capes
+uboot_overlay_addr4=/lib/firmware/BB-I2C1-00A0.dtbo
+uboot_overlay_addr5=/lib/firmware/BB-I2C2-00A0.dtbo
+#uboot_overlay_addr6=/lib/firmware/.dtbo
+#uboot_overlay_addr7=/lib/firmware/.dtbo
+###
+###Custom Cape
+#dtb_overlay=/lib/firmware/<file>.dtbo
+#enable-uboot-overlay-universal=1  => disable!!!
+
+only for Robot-Cape:
+https://github.com/StrawsonDesign/librobotcontrol.git
+=> ggf. das Pinmux fuer das Robotcape anpassen, so dass auch HDMI geht...
+-----------
+another way:
+OR USE enable-uboot-overlay-universal=1 
+config-pin -l P9_25
+config-pin p9_25 gpio 
+etc...
+-----------
+Check the result with:
+
+cat /sys/kernel/debug/pinctrl/44e10800.pinmux-pinctrl-single/pinmux-pins
+cat /sys/kernel/debug/pinctrl/44e10800.pinmux-pinctrl-single/pins
+
+-----------------------------------------------------------
+GPIOS:
+
+Nevertheless the PINMUX it is necesarry to configure the GPIO-Block:
+
+cd /sys/class/gpio/
+echo 60 (P9.12) > export
+cd gpio60
+echo out > direction
+echo 1 > value
+
+
+-----------------------------------------------------------
+network mount device
+
+Linux PC:
+mkdir /mnt/beagleroot
+192.168.21.142:/ /mnt/beagleroot nfs rw,hard,intr,rsize=8192,wsize=8192,timeo=14 0 0  (beim Linux-Rechner in /etc/fstab)
+
+Beaglebone:
+
+
+-----------------------------------------------------------
+CodeComposer Debugging:
+
+apt-get install gdbserver  (on Beaglebone)
+apt-get install gdb-multiarch (on linux-PC)
+create .gdbinit in work directory
+including text "set architecture arm" in .gdbinit
+preparing Eclipse following instructions on exploring Beaglebone Site266 "Remote Debugging"
+
+-----------------------------------------------------------
+I2C-Tools:
+
+apt-get update
+apt-get install i2c-tools
+i2cdetect -l    => list all devices
+i2cdetect -F 1  => list the i2c1 commands
+i2cdetect -r 1  => read the i2c1 Addresses till 70 
+
+/sys/devices/platform/ocp/44e0b000.i2c/i2c-1
+
+-----------------------------------------------------------
+USR-LEDS:
+
+
+
+
+
+-----------------------------------------------------------
+Program Execution:
+
+sudo ./Alarmsystem & (sudo: nescessary for modifying gpio direction)
+
+-----------------------------------------------------------
+
+
