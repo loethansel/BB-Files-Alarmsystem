@@ -133,6 +133,12 @@ Password for 'https://loethansel@github.com': ************
 retoure:
 git clone https://github.com/loethansel/BB-Files-Alarmsystem.git
 
+saving in progress:
+git add ImportantThings
+git add /Alarmsystem
+git commit -m "text"
+git push origin master
+
 -----------------------------------------------------------
 Program Execution:
 
