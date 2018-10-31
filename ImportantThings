@@ -54,7 +54,7 @@ uboot_overlay_addr5=/lib/firmware/BB-I2C2-00A0.dtbo
 
 only for Robot-Cape:
 https://github.com/StrawsonDesign/librobotcontrol.git
-=> ggf. das Pinmux fuer das Robotcape anpassen, so dass auch HDMI geht...
+=> edit Pinmux for Robotcape, to get on HDMI....
 -----------
 another way:
 OR USE enable-uboot-overlay-universal=1 
@@ -70,7 +70,7 @@ cat /sys/kernel/debug/pinctrl/44e10800.pinmux-pinctrl-single/pins
 -----------------------------------------------------------
 GPIOS:
 
-Nevertheless the PINMUX it is necesarry to configure the GPIO-Block:
+Nevertheless the PINMUX it is necessary to configure the GPIO-Block:
 
 cd /sys/class/gpio/
 echo 60 (P9.12) > export
@@ -84,7 +84,7 @@ network mount device
 
 Linux PC:
 mkdir /mnt/beagleroot
-192.168.21.142:/ /mnt/beagleroot nfs rw,hard,intr,rsize=8192,wsize=8192,timeo=14 0 0  (beim Linux-Rechner in /etc/fstab)
+192.168.21.142:/ /mnt/beagleroot nfs rw,hard,intr,rsize=8192,wsize=8192,timeo=14 0 0  (Linux-PC  in /etc/fstab)
 
 Beaglebone:
 
@@ -112,14 +112,31 @@ i2cdetect -r 1  => read the i2c1 Addresses till 70
 -----------------------------------------------------------
 USR-LEDS:
 
+cd /sys/class/leds/beaglebone:green:usr1
+echo 1 >> brightness
+or
+echo 0 >> brightness
 
+note: let usr0 left for indicating network-communication
 
+-----------------------------------------------------------
+GIT:
 
+git init
+git add file or dir
+git commit -m "text"
+git remote add origin https://github.com/loethansel/BB-Files-Alarmsystem.git
+git push origin master
+Username for 'https://github.com': loethansel
+Password for 'https://loethansel@github.com': ************
+
+retoure:
+git clone https://github.com/loethansel/BB-Files-Alarmsystem.git
 
 -----------------------------------------------------------
 Program Execution:
 
-sudo ./Alarmsystem & (sudo: nescessary for modifying gpio direction)
+sudo ./Alarmsystem & (sudo: necessary for modifying gpio direction)
 
 -----------------------------------------------------------
 
